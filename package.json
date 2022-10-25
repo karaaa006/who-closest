@@ -7,9 +7,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "firebase": "^9.12.1",
+    "firebase": "^9.12.1-20221012194824",
     "vue": "^3.2.41",
-    "vue-router": "^4.1.5"
+    "vue-router": "^4.1.5",
+    "vuefire": "^3.0.0-alpha.4"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^3.1.2",

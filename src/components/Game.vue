@@ -1,9 +1,10 @@
 <template>
   <div class="game-board">
+    <div class="question-topic">{{ question.topic }}</div>
     <div class="question">
       {{ question.text }}
     </div>
-    <form class="answer-form">
+    <form class="answer-form" @submit.prevent="setAnswer">
       <input type="number" class="answer-input" />
       <button class="answer-btn" type="submit">OK</button>
     </form>
@@ -20,24 +21,55 @@
 
 <script>
 import PlayerCardVue from "./PlayerCard.vue";
+import { db } from "../api/firestore.js";
+import {
+  collection,
+  doc,
+  getCountFromServer,
+  getDoc,
+  getDocs,
+  query,
+  where,
+} from "firebase/firestore";
 
 export default {
+  components: {
+    PlayerCard: PlayerCardVue,
+  },
   data() {
     return {
       playerList: [
-        { name: "test-666", score: 0, isMe: true },
+        { name: "me", score: 0, isMe: true },
         { name: "kara", score: 0, isMe: false },
         { name: "test-3", score: 0, isMe: false },
         { name: "test-4", score: 0, isMe: false },
       ],
       question: {
-        text: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Mollitia neque dolorum iste perspiciatis libero minus eos nihil iure sapiente sed nulla nostrum consequuntur quibusdam impedit, atque dolores aliquid deserunt illum?",
-        answer: 1992,
+        text: "",
+        answer: 0,
+        topic: "",
+        id: 0,
       },
+      answer: 0,
     };
   },
-  components: {
-    PlayerCard: PlayerCardVue,
+  async mounted() {
+    const collectionRef = collection(db, "questions");
+    const docsCountFromServer = await getCountFromServer(collectionRef);
+    const docsCount = docsCountFromServer.data().count;
+
+    const randomId = Math.ceil(Math.random() * docsCount) - 1;
+    const q = query(collectionRef, where("id", "==", randomId));
+    const querySnapshot = await getDocs(q);
+    const randomQuestion = querySnapshot.docs[0].data();
+
+    this.question = randomQuestion;
+  },
+  methods: {
+    setAnswer(typedAnswer) {
+      console.log(typedAnswer);
+      this.answer = typedAnswer;
+    },
   },
 };
 </script>
@@ -47,6 +79,18 @@ export default {
   padding: 25px;
   border: 1px solid #cccccc;
   border-radius: 10px;
+}
+
+.question-topic {
+  width: fit-content;
+
+  padding: 5px 10px;
+  margin-left: auto;
+  border-radius: 10px;
+
+  background-color: var(--accent-cl-opacity);
+
+  line-height: 1;
 }
 
 .question {

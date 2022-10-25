@@ -45,6 +45,8 @@ export default {
 
   transition: background-color 300ms ease;
 
+  cursor: default;
+
   &.me {
     border-color: var(--accent-cl);
     border-width: 2px;
