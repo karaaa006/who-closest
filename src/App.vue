@@ -1,14 +1,34 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
+import { RouterLink, RouterView } from "vue-router";
+import HelloWorld from "./components/HelloWorld.vue";
+
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyBUIdrufioJFwCqwD_uWG36ZJq4_XPhQEc",
+  authDomain: "who-closest.firebaseapp.com",
+  projectId: "who-closest",
+  storageBucket: "who-closest.appspot.com",
+  messagingSenderId: "271034771312",
+  appId: "1:271034771312:web:5d679aa0217b7db40251b5",
+  measurementId: "G-6RY36GJDJ6",
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
 </script>
 
 <template>
   <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
-
     <div class="wrapper">
-      <HelloWorld msg="You did it!" />
+      <HelloWorld msg="Who closest?" />
 
       <nav>
         <RouterLink to="/">Home</RouterLink>
